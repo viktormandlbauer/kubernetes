@@ -39,9 +39,18 @@ Focus on outcomes rather than technology. The default approach should be the sim
 - **Gradual transition**: Microservices adoption doesn’t need to happen overnight; take incremental steps.
 - **Willingness to change**: Successful microservices implementation requires an organizational commitment to change and adapt.
 
+## Kubernetes
+
+### [Cluster Management](ClusterManagement.md)
+
+### [Deployment](Deployment.md)
+
+## Exercises
+
+### [First Deploy](exercises/1.01/README.md)
 
 ---
 
 ## Sources
 
-* <https://www.youtube.com/watch?v=GBTdnfD6s5Q&t=53s&ab_channel=GOTOConferences>
+- <https://www.youtube.com/watch?v=GBTdnfD6s5Q&t=53s&ab_channel=GOTOConferences>
