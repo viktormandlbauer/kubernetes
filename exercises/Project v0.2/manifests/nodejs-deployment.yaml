@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodejs-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nodejs
+  template:
+    metadata:
+      labels:
+        app: nodejs
+    spec:
+      containers:
+      - name: nodejs-app-todo
+        image: viktormandlbauer/nodejs-app-todo:latest
+        ports:
+        - containerPort: 3000

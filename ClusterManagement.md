@@ -20,6 +20,12 @@ kubectl config view
 
 # View cluster pods
 kubectl get pods --all-namespaces
+
+# Delete cluster
+k3d cluster delete
+
+# Create cluster with port-forwarding configured
+k3d cluster create --port 8082:3000@agent:0 -p 8081:80@loadbalancer --agents 2
 ```
 
 ### What is k3d?¶
