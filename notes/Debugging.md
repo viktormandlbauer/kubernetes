@@ -23,5 +23,5 @@ kubectl cluster-info dump
 kubectl get nodes -o wide
 
 # Node information
-kubectl describe nodes k3d-k3s-default-agent-0
+kubectl describe nodes <nodename>
 ```

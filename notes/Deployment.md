@@ -22,39 +22,38 @@ kubectl scale deployment my-dep --replicas 1
 
 Create a deployment.yaml for declarative deployments.
 
+### deployment.yaml
+
 ```yaml
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: postgres-deployment
+  name: <deployment-name>
   labels:
-    app: postgres
+    app: <app-name>
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: postgres
+      app: <app-name>
   template:
     metadata:
       labels:
-        app: postgres
+        app: <app-name>
     spec:
       containers:
-      - name: postgres-todo
-        image: viktormandlbauer/pg_app_todo:latest
+      - name: <container-name>
+        image: <publisher>/<image>:<tag>
         env:
-        - name: POSTGRES_DB
-          value: todo
-        - name: POSTGRES_USER
-          value: todo
-        - name: POSTGRES_PASSWORD
-          value: todo
+        - name: <NAME>
+          value: <value>
+        ...
         ports:
-        - containerPort: 5432
+        - containerPort: <container-port>
         volumeMounts:
-        - mountPath: /var/lib/postgresql/data
-          name: postgres-storage
+        - mountPath: <container-persistent-data-path>
+          name: <storage-name>
 ```
 
 ```bash

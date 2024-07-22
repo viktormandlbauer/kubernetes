@@ -32,25 +32,32 @@ Focus on outcomes rather than technology. The default approach should be the sim
 - **Understand data complexity**: Breaking down complex systems often involves intricate data management.
 - **Map old databases to new services**: Identify and segregate data used by each microservice from the original database.
 
-## Handling People
-
-### *"No matter what they tell you, it's always a people problem" - Gerald Weinberg*
-
-- **Gradual transition**: Microservices adoption doesn’t need to happen overnight; take incremental steps.
-- **Willingness to change**: Successful microservices implementation requires an organizational commitment to change and adapt.
-
 ## Kubernetes
 
-### [Cluster Management](ClusterManagement.md)
+### [Cluster Management](notes/ClusterManagement.md)
 
-### [Deployment](Deployment.md)
+### [Deployment](notes/Deployment.md)
+
+### [Service](notes/Service.md)
+
+### [Networking](notes/Networking.md)
+
+### [Debugging](notes/Debugging.md)
+
 
 ## Exercises
 
-### [First Deploy](exercises/1.01/README.md)
+### [Project v0.1](exercises/Project%20v0.1/)
+
+### [Project v0.2](exercises/Project%20v0.2/)
+
+### [Project v0.3](exercises/Project%20v0.3/)
+
+### [Project v0.4](exercises/Project%20v0.4/)
 
 ---
 
 ## Sources
 
-- <https://www.youtube.com/watch?v=GBTdnfD6s5Q&t=53s&ab_channel=GOTOConferences>
+- <https://kubernetes.io/de/docs/reference/>
+- <https://devopswithkubernetes.com/>
