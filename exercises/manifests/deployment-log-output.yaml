@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: log-output
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: log-output
+  template:
+    metadata:
+      labels:
+        app: log-output
+    spec:
+      volumes:
+        - name: shared-data
+          emptyDir: {}
+      containers:
+        - name: log-output-reader
+          image: viktormandlbauer/log-output:latest
+          env:
+          - name: ROLE
+            value: "reader"
+          resources:
+            limits:
+              cpu: "1"
+              memory: "1Gi"
+          volumeMounts:
+            - name: shared-data
+              mountPath: /usr/src/app/files
+        - name: log-output-writer
+          image: viktormandlbauer/log-output:latest
+          env:
+          - name: ROLE
+            value: "writer"
+          volumeMounts:
+            - name: shared-data
+              mountPath: /usr/src/app/files
+          resources:
+            limits:
+              cpu: "1"
+              memory: "1Gi"
