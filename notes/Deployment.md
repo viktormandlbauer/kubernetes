@@ -6,16 +6,19 @@
 
 ```bash
 # Create deployment with image
-kubectl create deployment my-dep --image=<image-name>
+kubectl create deployment <deployment-name> --image=<image-name>
 
 # Show deployments
 kubectl get deployments
 
 # Delete deployment
-kubectl delete deployment my-dep
+kubectl delete deployment <deployment-name>
 
 # Setting 1 replica
-kubectl scale deployment my-dep --replicas 1 
+kubectl scale deployment <deployment-name> --replicas 1
+
+# Restart rollout of existing deployment
+kubectl rollout restart deployment <deployment-name>
 ```
 
 ## Declarative approach
@@ -68,7 +71,7 @@ kubectl apply -f manifests/deployment.yaml
 kubectl get pods
 
 # Follow log
-kubectl logs nodejs-dep-69959547d4-v2zrv --follow
+kubectl logs <pod-name> --follow
 ```
 
 ---

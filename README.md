@@ -61,3 +61,4 @@ Focus on outcomes rather than technology. The default approach should be the sim
 
 - <https://kubernetes.io/de/docs/reference/>
 - <https://devopswithkubernetes.com/>
+- <https://landscape.cncf.io/>

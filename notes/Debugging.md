@@ -25,3 +25,10 @@ kubectl get nodes -o wide
 # Node information
 kubectl describe nodes <nodename>
 ```
+
+## Pods
+
+```bash
+# Get pods
+kubectl get pods
+```

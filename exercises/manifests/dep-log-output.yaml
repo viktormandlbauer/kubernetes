@@ -21,6 +21,8 @@ spec:
           env:
           - name: ROLE
             value: "reader"
+          - name: PORT
+            value: '3000'
           resources:
             limits:
               cpu: "1"
@@ -33,6 +35,8 @@ spec:
           env:
           - name: ROLE
             value: "writer"
+          - name: PORT
+            value: "3001"
           volumeMounts:
             - name: shared-data
               mountPath: /usr/src/app/files
