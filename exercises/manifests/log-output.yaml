@@ -13,8 +13,11 @@ spec:
         app: log-output
     spec:
       volumes:
-        - name: shared-data
-          emptyDir: {}
+        #- name: shared-data
+        #  emptyDir: {}
+        - name: shared-data-ping-pong
+          persistentVolumeClaim:
+            claimName: pvc-ping-ping-log-output
       containers:
         - name: log-output-reader
           image: viktormandlbauer/log-output:latest
@@ -28,7 +31,9 @@ spec:
               cpu: "1"
               memory: "1Gi"
           volumeMounts:
-            - name: shared-data
+            #- name: shared-data
+            #  mountPath: /usr/src/app/files
+            - name: shared-data-ping-pong
               mountPath: /usr/src/app/files
         - name: log-output-writer
           image: viktormandlbauer/log-output:latest
@@ -38,9 +43,30 @@ spec:
           - name: PORT
             value: "3001"
           volumeMounts:
-            - name: shared-data
+            #- name: shared-data
+            #  mountPath: /usr/src/app/files
+            - name: shared-data-ping-pong
               mountPath: /usr/src/app/files
           resources:
             limits:
               cpu: "1"
               memory: "1Gi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: log-output-svc
+spec:
+  type: ClusterIP
+  selector:
+    app: log-output
+  ports:
+    - name: log-output-reader
+      port: 2346
+      protocol: TCP
+      targetPort: 3000
+    - name: log-output-writer
+      port: 2347
+      protocol: TCP
+      targetPort: 3001
+---

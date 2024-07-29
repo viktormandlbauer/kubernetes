@@ -18,6 +18,9 @@ k3d cluster delete
 # Create cluster with port-forwarding
 # <host-port>:<port>@<cluster_resource>
 k3d cluster create --api-port 6550 --port 30000:30000@agent:0 --port 30001:30001@agent:1 --port 80:80@loadbalancer --agents 2
+
+# Create local storage in the k3d cluster agent node
+docker exec k3d-k3s-default-agent-0 mkdir -p /tmp/kube
 ```
 
 ## Cluster Info

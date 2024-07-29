@@ -15,3 +15,17 @@ spec:
       containers:
         - name: simple-html
           image: viktormandlbauer/simple-html:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: simple-html-svc
+spec:
+  type: ClusterIP
+  selector:
+    app: simple-html
+  ports:
+    - port: 2345
+      protocol: TCP
+      targetPort: 3000
+---

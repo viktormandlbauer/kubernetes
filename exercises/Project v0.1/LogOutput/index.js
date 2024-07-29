@@ -9,29 +9,30 @@ const PORT = process.env.PORT || 3000;
 const role = process.env.ROLE || 'reader';
 
 // Define content variable to store log content
+let output = '';
 let content = '';
 
 // Function to generate a random UUID
 function generateRandomUUID() {
   // Helper function to generate a random hex digit
   function randomHexDigit() {
-      return Math.floor(Math.random() * 16).toString(16);
+    return Math.floor(Math.random() * 16).toString(16);
   }
 
   // Generate random UUID pattern
   return (
-      randomHexDigit() + randomHexDigit() + randomHexDigit() + randomHexDigit() +
-      randomHexDigit() + randomHexDigit() + randomHexDigit() + randomHexDigit() +
-      '-' +
-      randomHexDigit() + randomHexDigit() + randomHexDigit() + randomHexDigit() +
-      '-' +
-      randomHexDigit() + randomHexDigit() + randomHexDigit() + randomHexDigit() +
-      '-' +
-      randomHexDigit() + randomHexDigit() + randomHexDigit() + randomHexDigit() +
-      '-' +
-      randomHexDigit() + randomHexDigit() + randomHexDigit() + randomHexDigit() +
-      randomHexDigit() + randomHexDigit() + randomHexDigit() + randomHexDigit() +
-      randomHexDigit() + randomHexDigit() + randomHexDigit() + randomHexDigit()
+    randomHexDigit() + randomHexDigit() + randomHexDigit() + randomHexDigit() +
+    randomHexDigit() + randomHexDigit() + randomHexDigit() + randomHexDigit() +
+    '-' +
+    randomHexDigit() + randomHexDigit() + randomHexDigit() + randomHexDigit() +
+    '-' +
+    randomHexDigit() + randomHexDigit() + randomHexDigit() + randomHexDigit() +
+    '-' +
+    randomHexDigit() + randomHexDigit() + randomHexDigit() + randomHexDigit() +
+    '-' +
+    randomHexDigit() + randomHexDigit() + randomHexDigit() + randomHexDigit() +
+    randomHexDigit() + randomHexDigit() + randomHexDigit() + randomHexDigit() +
+    randomHexDigit() + randomHexDigit() + randomHexDigit() + randomHexDigit()
   );
 }
 
@@ -41,8 +42,8 @@ function getCurrentTimestamp() {
 
 // Write log to file
 function writeLog() {
-  content = getCurrentTimestamp() + ' ' + generateRandomUUID();
-  fs.writeFile('files/output.log', content, err => {
+  output = getCurrentTimestamp() + ' ' + generateRandomUUID() + '\n';
+  fs.writeFile('files/output.log', output, err => {
     if (err) {
       console.error(err);
     } else {
@@ -54,22 +55,29 @@ function writeLog() {
 
 // Read log from file
 function readLog() {
+  content = '';
   fs.readFile('files/output.log', 'utf8', (err, data) => {
     if (err) {
-      console.error(err);
+      console.error('Error reading log:', err);
     } else {
-      content = data;
-      console.log(content);
+      content += data + '<br>';
     }
   });
-    setTimeout(readLog, 5000);
+  fs.readFile('files/pingpong-count.txt', 'utf8', (err, data) => {
+    if (err) {
+      console.error('Error reading pingpong count file:', err);
+    } else {
+      content += data + '<br>';
+    }
+  });
+  setTimeout(readLog, 5000);
 }
 
-if(role == 'reader'){
+if (role == 'reader') {
   readLog();
-}else if(role == 'writer'){
+} else if (role == 'writer') {
   writeLog();
-}else{
+} else {
   console.error('Invalid role');
   process.exit(-1);
 }

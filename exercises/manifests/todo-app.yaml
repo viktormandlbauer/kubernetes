@@ -1,3 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -36,3 +47,22 @@ spec:
         persistentVolumeClaim:
           claimName: postgres-pvc
 ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-todo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-todo
+  template:
+    metadata:
+      labels:
+        app: app-todo
+    spec:
+      containers:
+      - name: app-todo
+        image: viktormandlbauer/nodejs-app-todo:latest
+        ports:
+        - containerPort: 3000
