@@ -2,6 +2,19 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { Pool } = require('pg');
 
+const imageService = require('./services/fileService');
+
+setInterval(() => {
+  // Fetch and save a file
+  imageService.fetchFile('https://picsum.photos/1200')
+    .then((filePath) => {
+      console.log('File saved at:', filePath);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+}, 3600000);
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -17,6 +30,14 @@ const pool = new Pool({
 
 // Middleware
 app.use(bodyParser.json());
+
+// Serve static files
+app.use(express.static('public'))
+
+// Define a route to return an HTML site
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 // Create a new task
 app.post('/tasks', async (req, res) => {

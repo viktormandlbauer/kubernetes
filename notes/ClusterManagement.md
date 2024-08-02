@@ -37,7 +37,6 @@ kubectl get pods --all-namespaces
 
 # View cluster nodes
 kubectl get nodes -o wide
-
 ```
 
 ### What is k3d?

@@ -5,11 +5,11 @@ CREATE DATABASE todo_app;
 \c todo_app
 
 --- Create the task_status enum
-CREATE TYPE task_status AS ENUM ('not-done', 'done');
+CREATE TYPE task_status AS ENUM ('todo', 'done');
 
 --- Create the tasks table
 CREATE TABLE tasks (
     id SERIAL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
-    status task_status NOT NULL DEFAULT 'not-done'
+    status task_status NOT NULL DEFAULT 'todo'
 );

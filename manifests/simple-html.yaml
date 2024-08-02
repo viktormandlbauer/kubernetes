@@ -15,6 +15,10 @@ spec:
       containers:
         - name: simple-html
           image: viktormandlbauer/simple-html:latest
+          resources:
+            limits:
+              cpu: "0.5"
+              memory: "256Mi"
 ---
 apiVersion: v1
 kind: Service
