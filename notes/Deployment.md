@@ -21,11 +21,11 @@ kubectl scale deployment <deployment-name> --replicas 1
 kubectl rollout restart deployment <deployment-name>
 ```
 
-## Declarative approach
+### Declarative approach
 
 Create a deployment.yaml for declarative deployments.
 
-### deployment.yaml
+#### deployment.yaml
 
 ```yaml
 ---
