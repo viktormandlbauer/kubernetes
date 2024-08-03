@@ -48,7 +48,7 @@ Use it in deployments like
 ```yaml
 # ...
     spec:
-      volumes:
+      volumes:-
         - name: shared-image
           persistentVolumeClaim:
             claimName: image-claim
