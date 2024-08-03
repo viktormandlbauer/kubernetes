@@ -55,7 +55,7 @@ The applications from the exercies are located in the following directories:
 * [db-todoApp](apps/db-todoApp/)
 * [pingpong](apps/PingPong/)
 
-The files for deployment, services, etc. are stored in [manifests](manifests/)
+The files for deployments, services, etc. are stored in [manifests](manifests/)
 
 ---
 
