@@ -47,13 +47,15 @@ Focus on outcomes rather than technology. The default approach should be the sim
 
 ## Exercises
 
-### [Project v0.1](exercises/Project%20v0.1/)
+The applications from the exercies are located in the following directories:
 
-### [Project v0.2](exercises/Project%20v0.2/)
+* [todoApp](apps/todoApp/)
+* [logOutput](apps/LogOutput/)
+* [simple-html](apps/simple-html/)
+* [db-todoApp](apps/db-todoApp/)
+* [pingpong](apps/PingPong/)
 
-### [Project v0.3](exercises/Project%20v0.3/)
-
-### [Project v0.4](exercises/Project%20v0.4/)
+The files for deployments, services, etc. are stored in [manifests](manifests/)
 
 ---
 
