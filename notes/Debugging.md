@@ -3,6 +3,8 @@
 ## General
 
 ```sh
+kubectl get
+
 kubectl describe
 
 kubectl logs
@@ -34,6 +36,9 @@ kubectl get pods -o wide
 
 # Show pod logs 
 kubectl logs pods/<pod-name>
+
+# Show more information about the pod
+kubectl describe pods/<pod-name>
 ```
 
 ## Network
@@ -41,6 +46,9 @@ kubectl logs pods/<pod-name>
 ```sh
 # Show services
 kubectl get service -o wide
+
+# Describe services
+kubectl describe svc/<svc-name>
 ```
 
 The `busybox` image can be used for testing network connectivity between pods.
@@ -64,10 +72,18 @@ spec:
   restartPolicy: Always
 ```
 
-```sh
-# Test TCP connection
-kubectl exec -it my-busybox -- nc -v <svc-name/svc-ip> <port> 
+It provides some basic network utilities for debugging:
 
-# Test HTTP response
-kubectl exec -it my-busybox -- wget -qO - http://<svc-name>:<port>
+```sh
+# Test TCP connection to another service
+kubectl exec -it my-busybox -- nc -v <svc-name/svc-ip/pod-ip> <port> 
+
+# Test HTTP response from another service
+kubectl exec -it my-busybox -- wget -qO - http://<svc-name/svp-ip/pod-ip>:<port>
+
+# Interactive mode
+kubectl exec -it my-busybox sh
+
+# Delete the debugging pod
+kubectl delete pod/my-busybox
 ```
