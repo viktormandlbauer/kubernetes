@@ -6,7 +6,7 @@ metadata:
 spec:
   stripPrefix:
     prefixes:
-      - /todo
+      - /nothing
       - /test
 ---
 # Ingress
@@ -24,9 +24,16 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: app-todo-svc
+            name: todo-app-svc
             port:
               number: 2349
+      - path: /todos
+        pathType: Prefix
+        backend:
+          service:
+            name: todo-backend-svc
+            port:
+              number: 2350
       - path: /log-output-reader
         pathType: Prefix
         backend:
@@ -48,10 +55,3 @@ spec:
             name: ping-pong-svc
             port:
               number: 2348
-      - path: /todo
-        pathType: Prefix
-        backend:
-          service:
-            name: app-todo-svc
-            port:
-              number: 2349

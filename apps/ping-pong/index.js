@@ -20,6 +20,10 @@ app.get('/pingpong', (req, res) => {
   })
 });
 
+app.get('/pingpong/count', (req, res) => {
+  res.send(counter.toString());
+});
+
 app.listen(port, () => {
   console.log(`PingPong app listening on port ${port}`);
 });

@@ -1,15 +1,15 @@
 -- Create simple database for the todo app
-CREATE DATABASE todo_app;
+CREATE DATABASE app_todo;
 
 --- Use the database
-\c todo_app
+\c app_todo
 
 --- Create the task_status enum
-CREATE TYPE task_status AS ENUM ('todo', 'done');
+CREATE TYPE todo_status AS ENUM ('open', 'done');
 
 --- Create the tasks table
-CREATE TABLE tasks (
+CREATE TABLE todos (
     id SERIAL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
-    status task_status NOT NULL DEFAULT 'todo'
+    status todo_status NOT NULL DEFAULT 'open'
 );

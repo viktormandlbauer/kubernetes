@@ -41,7 +41,7 @@ function getCurrentTimestamp() {
 }
 
 // Write log to file
-function writeLog() {
+function writer() {
   output = getCurrentTimestamp() + ' ' + generateRandomUUID() + '\n';
   fs.writeFile('files/output.log', output, err => {
     if (err) {
@@ -50,12 +50,14 @@ function writeLog() {
       console.info('File written successfully!');
     }
   });
-  setTimeout(writeLog, 5000);
+  setTimeout(writer, 5000);
 }
 
 // Read log from file
-function readLog() {
+function reader() {
   content = '';
+
+  // Read log file
   fs.readFile('files/output.log', 'utf8', (err, data) => {
     if (err) {
       console.error('Error reading log:', err);
@@ -63,20 +65,24 @@ function readLog() {
       content += data + '<br>';
     }
   });
-  fs.readFile('files/pingpong-count.txt', 'utf8', (err, data) => {
-    if (err) {
-      console.error('Error reading pingpong count file:', err);
-    } else {
-      content += data + '<br>';
-    }
-  });
-  setTimeout(readLog, 5000);
+
+  // Request pingpong count
+  fetch('http://localhost:3000/pingpong/count')
+    .then(response => response.text())
+    .then(data => {
+      content += 'Ping / Pongs: ' + data + '<br>';
+    })
+    .catch(err => {
+      console.error('Error fetching pingpong count:', err);
+    });
+
+  setTimeout(reader, 5000);
 }
 
 if (role == 'reader') {
-  readLog();
+  reader();
 } else if (role == 'writer') {
-  writeLog();
+  writer();
 } else {
   console.error('Invalid role');
   process.exit(-1);

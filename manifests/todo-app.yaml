@@ -12,19 +12,19 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app-todo
+  name: todo-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: app-todo
+      app: todo-app
   template:
     metadata:
       labels:
-        app: app-todo
+        app: todo-app
     spec:
       containers:
-      - name: app-todo
+      - name: todo-app
         image: viktormandlbauer/todo-app:latest
         ports:
         - containerPort: 3000
@@ -32,39 +32,17 @@ spec:
           limits:
             cpu: "1"
             memory: "500Mi"
-      - name: postgres-todo
-        image: viktormandlbauer/postgres-db-todo:latest
-        env:
-        - name: POSTGRES_DB
-          value: todo
-        - name: POSTGRES_USER
-          value: todo
-        - name: POSTGRES_PASSWORD
-          value: todo
-        ports:
-        - containerPort: 5432
-        resources:
-          limits:
-            cpu: "1"
-            memory: "512Mi"
-        volumeMounts:
-        - mountPath: /var/lib/postgresql/data
-          name: postgres-storage
-      volumes:
-      - name: postgres-storage
-        persistentVolumeClaim:
-          claimName: postgres-pvc
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: app-todo-svc
+  name: todo-app-svc
 spec:
   type: ClusterIP
   selector:
-    app: app-todo
+    app: todo-app
   ports:
-    - name: app-todo
+    - name: todo-app
       port: 2349
       protocol: TCP
       targetPort: 3000
