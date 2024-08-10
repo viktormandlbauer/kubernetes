@@ -33,9 +33,9 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: image-claim
+  name: <claim-name>
 spec:
-  storageClassName: my-example-pv
+  storageClassName: <persistent-volume>
   accessModes:
     - ReadWriteOnce
   resources:
@@ -53,13 +53,13 @@ Use it in deployments like
           persistentVolumeClaim:
             claimName: image-claim
       containers:
-        - name: image-finder
-          image: jakousa/dwk-app3-image-finder:b7fc18de2376da80ff0cfc72cf581a9f94d10e64
+        - name: <container-name>
+          image: <image-name:image-tag>
           volumeMounts:
           - name: shared-image
             mountPath: /usr/src/app/files
         - name: image-response
-          image: jakousa/dwk-app3-image-response:b7fc18de2376da80ff0cfc72cf581a9f94d10e64
+          image: <imageName:imagetag>
           volumeMounts:
           - name: shared-image
             mountPath: /usr/src/app/files
