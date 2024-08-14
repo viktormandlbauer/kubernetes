@@ -1,16 +1,17 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: pv-local-agent-0
+  name: pv1
+  namespace: project
 spec:
-  storageClassName: pv-local-agent-0
+  storageClassName: pv1-agents-filesystem
   capacity:
-    storage: 500Mi
+    storage: 1Gi
   volumeMode: Filesystem
   accessModes:
   - ReadWriteOnce
   local:
-    path: /tmp/kube
+    path: /tmp/project
   nodeAffinity:
     required:
       nodeSelectorTerms:
@@ -19,16 +20,18 @@ spec:
           operator: In
           values:
           - k3d-k3s-default-agent-0
+          - k3d-k3s-default-agent-1
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: pvc-ping-ping-log-output
+  name: pvc1
+  namespace: project
 spec:
-  storageClassName: pv-local-agent-0
+  storageClassName: pv1-agents-filesystem
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 500Mi
+      storage: 1Gi
 ---

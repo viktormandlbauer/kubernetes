@@ -2,21 +2,28 @@
 
 ## Persistent Volumes
 
-```yaml
+Prerequisite for using local filesystem storage on a Kubernetes cluster:
 
+```bash
+# Replace <node-name> with the name of your Kubernetes node
+docker exec <node-name> mkdir -p /tmp/project
+docker exec <node-name> mkdir -p /tmp/experimental
+```
+
+```yaml
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: example-pv
+  name: <pv-name>
 spec:
-  storageClassName: my-example-pv
+  storageClassName: <storageclass-name> # Referenced by pvc 
   capacity:
     storage: 1Gi
   volumeMode: Filesystem
   accessModes:
   - ReadWriteOnce
   local:
-    path: /tmp/kube
+    path: <local-filesystem-path>
   nodeAffinity:
     required:
       nodeSelectorTerms:
@@ -24,18 +31,19 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - k3d-k3s-default-agent-0
+          - <node-name1>
+          - <node-name2>
 ```
 
 ### Persistent Volumes Claim
 
 ```yaml
 apiVersion: v1
-kind: PersistentVolumeClaim
+kind: PersistentVolumeClaim 
 metadata:
-  name: image-claim
+  name: <pvc-name>
 spec:
-  storageClassName: my-example-pv
+  storageClassName: <storageclass-name-reference>
   accessModes:
     - ReadWriteOnce
   resources:
@@ -48,20 +56,19 @@ Use it in deployments like
 ```yaml
 # ...
     spec:
-      volumes:-
-        - name: shared-image
+      volumes:
+        - name: <volume-name>
           persistentVolumeClaim:
-            claimName: image-claim
+            claimName: <pvc-name>
       containers:
-        - name: image-finder
-          image: jakousa/dwk-app3-image-finder:b7fc18de2376da80ff0cfc72cf581a9f94d10e64
+        - name: <container-name>
+          image: <image-name>:<image-tag>
           volumeMounts:
-          - name: shared-image
+          - name: <volume-name>
             mountPath: /usr/src/app/files
-        - name: image-response
-          image: jakousa/dwk-app3-image-response:b7fc18de2376da80ff0cfc72cf581a9f94d10e64
+        - name: <container-name>
+          image: <image-name>:<image-tag>
           volumeMounts:
-          - name: shared-image
+          - name: <volume-name>
             mountPath: /usr/src/app/files
 ```
-

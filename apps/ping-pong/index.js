@@ -21,6 +21,7 @@ app.get('/pingpong', (req, res) => {
 });
 
 app.get('/pingpong/count', (req, res) => {
+  console.log('Returning count: ', counter);
   res.send(counter.toString());
 });
 

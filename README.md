@@ -44,16 +44,15 @@ Focus on outcomes rather than technology. The default approach should be the sim
 
 ### [Debugging](notes/Debugging.md)
 
-
 ## Exercises
 
 The applications from the exercies are located in the following directories:
 
-* [todoApp](apps/todoApp/)
-* [logOutput](apps/LogOutput/)
-* [simple-html](apps/simple-html/)
-* [db-todoApp](apps/db-todoApp/)
-* [pingpong](apps/PingPong/)
+- [todoApp](apps/todoApp/)
+- [logOutput](apps/LogOutput/)
+- [simple-html](apps/simple-html/)
+- [db-todoApp](apps/db-todoApp/)
+- [pingpong](apps/PingPong/)
 
 The files for deployments, services, etc. are stored in [manifests](manifests/)
 

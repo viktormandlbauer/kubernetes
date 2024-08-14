@@ -5,8 +5,11 @@ const fs = require('node:fs');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Define container role
-const role = process.env.ROLE || 'reader';
+// Container role (can be 'reader' or 'writer')
+const ROLE = process.env.ROLE || 'reader';
+
+// Ping Pong service endpoint
+const SVC_PINGPONGCOUNT_ENDPOINT = process.env.SVC_PINGPONGCOUNT_ENDPOINT || 'http://localhost:3000/pingpong/count';
 
 // Define content variable to store log content
 let output = '';
@@ -57,20 +60,29 @@ function writer() {
 function reader() {
   content = '';
 
-  // Read log file
-  fs.readFile('files/output.log', 'utf8', (err, data) => {
+  console.log('Reading log...');
+
+  // Reading log file
+  fs.readFile('files/output.log', 'utf8', (err, data_log) => {
     if (err) {
       console.error('Error reading log:', err);
     } else {
-      content += data + '<br>';
+      content += data_log + '<br>';
     }
   });
 
-  // Request pingpong count
-  fetch('http://localhost:3000/pingpong/count')
-    .then(response => response.text())
-    .then(data => {
-      content += 'Ping / Pongs: ' + data + '<br>';
+  console.info('Fetching pingpong count from:', SVC_PINGPONGCOUNT_ENDPOINT);
+
+  // Fetching pingpong count
+  fetch(SVC_PINGPONGCOUNT_ENDPOINT)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok. Status code: ' + response.status);
+      }
+      return response.text();
+    })
+    .then(data_count => {
+      content += 'Ping / Pongs: ' + data_count + '<br>';
     })
     .catch(err => {
       console.error('Error fetching pingpong count:', err);
@@ -79,9 +91,9 @@ function reader() {
   setTimeout(reader, 5000);
 }
 
-if (role == 'reader') {
+if (ROLE == 'reader') {
   reader();
-} else if (role == 'writer') {
+} else if (ROLE == 'writer') {
   writer();
 } else {
   console.error('Invalid role');
@@ -95,5 +107,5 @@ app.get('*', (req, res) => {
 
 // Start the server
 app.listen(PORT, () => {
-  console.log(`log-${role} is running on port ${PORT}...`);
+  console.log(`log-${ROLE} is running on port ${PORT}...`);
 });

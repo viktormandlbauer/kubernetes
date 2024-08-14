@@ -1,6 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: experimental
   name: log-output
 spec:
   replicas: 1
@@ -17,7 +18,7 @@ spec:
         #  emptyDir: {}
         - name: shared-data-ping-pong
           persistentVolumeClaim:
-            claimName: pvc-ping-ping-log-output
+            claimName: pvc1
       containers:
         - name: log-output-reader
           image: viktormandlbauer/log-output:latest
@@ -26,6 +27,8 @@ spec:
             value: "reader"
           - name: PORT
             value: '3000'
+          - name: SVC_PINGPONGCOUNT_ENDPOINT
+            value: 'http://ping-pong-svc.experimental:2348/pingpong/count'
           resources:
             limits:
               cpu: "1"
@@ -55,6 +58,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  namespace: experimental
   name: log-output-svc
 spec:
   type: ClusterIP
