@@ -3,7 +3,7 @@ FROM postgres:13
 
 # Set the environment variables
 ENV POSTGRES_USER=todo
-ENV POSTGRES_PASSWORD=todo
+ENV POSTGRES_PASSWORD=
 
 # Add the initialization script to the Docker image
 COPY init.sql /docker-entrypoint-initdb.d/

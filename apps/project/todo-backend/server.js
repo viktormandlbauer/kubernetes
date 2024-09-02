@@ -8,13 +8,20 @@ const PORT = process.env.PORT || 3000;
 const cors = require("cors");
 app.use(cors());
 
+// Load environment variables for PostgreSQL connection
+const DB_NAME = process.env.DB_NAME || 'app_todos';
+const DB_USER = process.env.DB_USER || 'todos';
+const DB_HOST = process.env.DB_HOST || '0.0.0.0';
+const DB_PORT = process.env.DB_PORT || 5432;
+const DB_PASSWORD = process.env.DB_PASSWORD || '';
+
 // PostgreSQL connection
 const pool = new Pool({
-  user: 'todo',
-  host: '0.0.0.0',
-  database: 'app_todo',
-  password: 'todo',
-  port: 5432,
+  user: DB_USER,
+  host: DB_HOST,
+  database: DB_NAME,
+  password: DB_PASSWORD,
+  port: DB_PORT,
 });
 
 // Middleware

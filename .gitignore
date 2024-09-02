@@ -1,3 +1,5 @@
 node_modules
 apps/*/files/*
 .*
+secret.yaml
+secrets.yaml

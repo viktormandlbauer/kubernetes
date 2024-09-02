@@ -2,7 +2,7 @@
 
 ## Persistent Volumes
 
-Prerequisite for using local filesystem storage on a Kubernetes cluster:
+Using node filesystem for persistent storage:
 
 ```bash
 # Replace <node-name> with the name of your Kubernetes node
@@ -41,15 +41,9 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim 
 metadata:
-<<<<<<< HEAD
   name: <pvc-name>
 spec:
   storageClassName: <storageclass-name-reference>
-=======
-  name: <claim-name>
-spec:
-  storageClassName: <persistent-volume>
->>>>>>> 93c4c6e01b6cf985fe9411421b270874235d5393
   accessModes:
     - ReadWriteOnce
   resources:
@@ -68,22 +62,19 @@ Use it in deployments like
             claimName: <pvc-name>
       containers:
         - name: <container-name>
-<<<<<<< HEAD
           image: <image-name>:<image-tag>
-=======
-          image: <image-name:image-tag>
->>>>>>> 93c4c6e01b6cf985fe9411421b270874235d5393
           volumeMounts:
           - name: <volume-name>
             mountPath: /usr/src/app/files
-<<<<<<< HEAD
         - name: <container-name>
           image: <image-name>:<image-tag>
-=======
-        - name: image-response
-          image: <imageName:imagetag>
->>>>>>> 93c4c6e01b6cf985fe9411421b270874235d5393
           volumeMounts:
           - name: <volume-name>
             mountPath: /usr/src/app/files
+```
+
+## StatefulSets
+
+```bash
+kubectl run -it --rm --restart=Never --image postgres psql-for-debugging sh
 ```

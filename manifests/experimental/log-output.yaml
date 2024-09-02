@@ -13,12 +13,6 @@ spec:
       labels:
         app: log-output
     spec:
-      volumes:
-        #- name: shared-data
-        #  emptyDir: {}
-        - name: shared-data-ping-pong
-          persistentVolumeClaim:
-            claimName: pvc1
       containers:
         - name: log-output-reader
           image: viktormandlbauer/log-output:latest
@@ -29,15 +23,21 @@ spec:
             value: '3000'
           - name: SVC_PINGPONGCOUNT_ENDPOINT
             value: 'http://ping-pong-svc.experimental:2348/pingpong/count'
+          - name: MESSAGE
+            valueFrom:
+              configMapKeyRef:
+                name: log-output-configmap
+                key: MESSAGE
           resources:
             limits:
               cpu: "1"
               memory: "1Gi"
           volumeMounts:
-            #- name: shared-data
-            #  mountPath: /usr/src/app/files
             - name: shared-data-ping-pong
               mountPath: /usr/src/app/files
+            - name: config
+              mountPath: /usr/src/app/files/information.txt
+              subPath: information.txt
         - name: log-output-writer
           image: viktormandlbauer/log-output:latest
           env:
@@ -46,14 +46,25 @@ spec:
           - name: PORT
             value: "3001"
           volumeMounts:
-            #- name: shared-data
-            #  mountPath: /usr/src/app/files
             - name: shared-data-ping-pong
               mountPath: /usr/src/app/files
+            - name: config
+              mountPath: /usr/src/app/files/information.txt
+              subPath: information.txt
           resources:
             limits:
               cpu: "1"
               memory: "1Gi"
+      volumes:
+        - name: shared-data-ping-pong
+          persistentVolumeClaim:
+            claimName: pvc1
+        - name: config
+          configMap:
+            name: log-output-configmap
+            items:
+            - key: "information.txt"
+              path: information.txt 
 ---
 apiVersion: v1
 kind: Service
@@ -74,3 +85,12 @@ spec:
       protocol: TCP
       targetPort: 3001
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: log-output-configmap
+  namespace: experimental
+data:
+  MESSAGE: "Hello, World!"
+  information.txt: | 
+    this text is from file

@@ -79,3 +79,25 @@ kubectl logs <pod-name> --follow
 ### Sources
 
 - <https://kubernetes.io/docs/concepts/workloads/controllers/deployment/>
+
+## Secrets
+
+```yaml
+# ...
+containers:
+  - name: imageagain
+    env:
+      - name: API_KEY # ENV name passed to container
+        valueFrom:
+          secretKeyRef:
+            name: pixabay-apikey
+            key: API_KEY # ENV name in the secret
+```
+
+```bash
+sops --encrypt --age <public-key> --encrypted-regex '^(data)$' secret.yaml
+
+export SOPS_AGE_KEY_FILE=~/kubernetes/.secret-key.txt
+
+sops --decrypt secrets.enc.yaml | kubectl apply -f -
+```

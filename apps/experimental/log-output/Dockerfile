@@ -17,4 +17,7 @@ ENV PORT=3000
 # http://<svc-name>:<svc-port>/pingpong/count
 ENV SVC_PINGPONGCOUNT_ENDPOINT=''
 
+# Message set through config map 
+ENV MESSAGE=""
+
 CMD ["npm", "start"]

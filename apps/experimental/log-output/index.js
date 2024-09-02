@@ -11,6 +11,9 @@ const ROLE = process.env.ROLE || 'reader';
 // Ping Pong service endpoint
 const SVC_PINGPONGCOUNT_ENDPOINT = process.env.SVC_PINGPONGCOUNT_ENDPOINT || 'http://localhost:3000/pingpong/count';
 
+// Message from config map environment variable
+const MESSAGE = process.env.MESSAGE || 'Config Map MESSAGE not set!';
+
 // Define content variable to store log content
 let output = '';
 let content = '';
@@ -60,7 +63,23 @@ function writer() {
 function reader() {
   content = '';
 
-  console.log('Reading log...');
+  console.info("Reading information.txt from config map")
+
+  // Reading information.txt from config map
+  fs.readFile('files/information.txt', 'utf8', (err, data_info) => {
+    if (err) {
+      console.error('Error reading information:', err);
+    } else {
+      content += 'file content:' + data_info + '<br>';
+    }
+  });
+
+  console.info('Reading message from config map');
+
+  // Reading message from config map
+  content += 'env variable: MESSAGE=' + MESSAGE + '<br>';
+
+  console.info('Reading log file from log-output-writer');
 
   // Reading log file
   fs.readFile('files/output.log', 'utf8', (err, data_log) => {
