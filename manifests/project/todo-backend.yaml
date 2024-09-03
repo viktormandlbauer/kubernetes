@@ -34,6 +34,11 @@ spec:
             configMapKeyRef:
               name: todo-backend-config
               key: DB_HOST
+        - name: DB_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: todo-backend-config
+              key: DB_NAME
         - name: DB_USER
           valueFrom:
             configMapKeyRef:
@@ -135,5 +140,6 @@ metadata:
   name: todo-backend-config
   namespace: project
 data:
+  DB_NAME: app_todo
   DB_USER: todo
   DB_HOST: todo-db.project

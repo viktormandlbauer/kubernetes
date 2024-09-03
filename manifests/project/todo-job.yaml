@@ -1,0 +1,45 @@
+# ┌───────────── minute (0 - 59)
+# │ ┌───────────── hour (0 - 23)
+# │ │ ┌───────────── day of the month (1 - 31)
+# │ │ │ ┌───────────── month (1 - 12)
+# │ │ │ │ ┌───────────── day of the week (0 - 6) (Sunday to Saturday)
+# │ │ │ │ │                                   OR sun, mon, tue, wed, thu, fri, sat
+# │ │ │ │ │ 
+# │ │ │ │ │
+# * * * * *
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: todo-job
+  namespace: project
+spec:
+  schedule: "0 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: todo-job
+            image: viktormandlbauer/todo-job:latest
+            imagePullPolicy: Always
+            env:
+            - name: TODO_API_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-job-config
+                  key: TODO_API_URL
+            - name: RANDOM_WIKIPEDIA_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-job-config
+                  key: RANDOM_WIKIPEDIA_URL
+          restartPolicy: OnFailure
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: todo-job-config
+  namespace: project
+data:
+  TODO_API_URL: http://todo-backend-svc.project:2350/todos
+  RANDOM_WIKIPEDIA_URL: https://en.wikipedia.org/wiki/Special:Random

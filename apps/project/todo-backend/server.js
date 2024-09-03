@@ -9,7 +9,7 @@ const cors = require("cors");
 app.use(cors());
 
 // Load environment variables for PostgreSQL connection
-const DB_NAME = process.env.DB_NAME || 'app_todos';
+const DB_NAME = process.env.DB_NAME || 'app_todo';
 const DB_USER = process.env.DB_USER || 'todos';
 const DB_HOST = process.env.DB_HOST || '0.0.0.0';
 const DB_PORT = process.env.DB_PORT || 5432;
