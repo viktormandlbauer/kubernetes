@@ -1,14 +1,33 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require("cors");
 const { Pool } = require('pg');
-
+const winston = require('winston');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const cors = require("cors");
 app.use(cors());
 
-// Load environment variables for PostgreSQL connection
+// 
+// Logging
+//
+const logger = winston.createLogger({
+  level: 'info',
+  format: winston.format.combine(
+    winston.format.timestamp({ format: 'YYYY-MM-DDTHH:mm:ss.SSSZ' }),
+    winston.format.printf(({ timestamp, level, message, meta }) => {
+      return `${timestamp} [${level.toUpperCase()}]: ${message} ${meta ? JSON.stringify(meta) : ''}`;
+    })
+  ),
+  transports: [
+    new winston.transports.Console(),
+    // Add more transports here (e.g., file, HTTP) if needed
+  ],
+});
+
+//
+// Environment variables
+//
 const DB_NAME = process.env.DB_NAME || 'app_todo';
 const DB_USER = process.env.DB_USER || 'todos';
 const DB_HOST = process.env.DB_HOST || '0.0.0.0';
@@ -29,26 +48,29 @@ app.use(bodyParser.json());
 
 // Create a new task
 app.post('/todos', async (req, res) => {
-
-  console.log("Create a new task");
-
+  
   const { title, status } = req.body;
+
+  if(title.length > 140) {
+    logger.error('Todo must be less than 120 characters: ' + title);
+    return res.status(400).json({ error: 'Todo must be less than 120 characters' });
+  }
+  
   try {
     const newTask = await pool.query(
       'INSERT INTO todos (title, status) VALUES ($1, $2) RETURNING *',
       [title, status]
     );
+    logger.info('New todo created: ' + title);
     res.status(201).json(newTask.rows[0]);
   } catch (err) {
+    logger.error('Error creating new todo: ' + title);
     res.status(500).json({ error: err.message });
   }
 });
 
 // Get all tasks
 app.get('/todos', async (req, res) => {
-
-  console.log("Get all tasks");
-
   try {
     const tasks = await pool.query('SELECT * FROM todos');
     res.status(200).json(tasks.rows);
