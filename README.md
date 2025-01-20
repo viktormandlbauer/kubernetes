@@ -48,11 +48,13 @@ Focus on outcomes rather than technology. The default approach should be the sim
 
 The applications from the exercies are located in the following directories:
 
-- [todoApp](apps/todoApp/)
-- [logOutput](apps/LogOutput/)
-- [simple-html](apps/simple-html/)
-- [db-todoApp](apps/db-todoApp/)
-- [pingpong](apps/PingPong/)
+- [todoApp](apps/project/todo-app/)
+- [db-todoApp](apps/project/todo-app/)
+- [todo-backend](apps/project/todo-backend/)
+- [todo-job](apps/project/todo-job/)
+- [logOutput](apps/experimental/log-output/)
+- [simple-html](apps/experimental/simple-html/)
+- [pingpong](apps/experimental/ping-pong/)
 
 The files for deployments, services, etc. are stored in [manifests](manifests/)
 
